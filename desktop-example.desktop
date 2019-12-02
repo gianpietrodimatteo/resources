@@ -1,0 +1,13 @@
+cat << EOF > ~/.local/share/applications/intellij.desktop
+[Desktop Entry]
+Name=Intellij
+GenericName=IDEa
+X-GNOME-FullName=Intellij IDEa
+Comment=Work on java projects
+Keywords=ide;
+Exec=/opt/idea-IC-192.7142.36/bin/idea.sh
+Terminal=false
+Type=Application
+Icon=/opt/idea-IC-192.7142.36/bin/idea.png
+Categories=Development;Utilities;
+EOF
