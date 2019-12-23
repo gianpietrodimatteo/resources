@@ -1,0 +1,14 @@
+<div class="notification-card" [attr.type]="data.type" [ngStyle]="style">
+  <div class="row-grid">
+    <div class="col notification-icon">
+      <span [ngSwitch]="data.type">
+        <fa-icon *ngSwitchCase="0" icon="check"></fa-icon>
+        <fa-icon *ngSwitchCase="1" icon="times"></fa-icon>
+        <fa-icon *ngSwitchCase="2" icon="exclamation"></fa-icon>
+      </span>
+    </div>
+    <div class="col" [innerHTML]="data.data">
+      <!-- CONTAINER DATA -->
+    </div>
+  </div>
+</div>

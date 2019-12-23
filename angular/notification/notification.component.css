@@ -1,0 +1,19 @@
+:host{
+    display:block;
+}
+#content-body{
+    box-shadow: -4px 0px 20px 0px #808080;
+}
+#notification-container{
+    padding-top: 0.5em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    overflow-y: auto;
+    height: 100vh;
+}
+#float-notification{
+    position: fixed;
+    top: 4.6em;
+    right: 0.5em;
+    z-index: 10000;
+}

@@ -1,0 +1,17 @@
+<div id="loading" [attr.active]="visible">
+  <div id="loading-container" class="transition-5ms">
+    <ng-content></ng-content>
+  </div>
+  <div id="loading-content">
+    <div id="loading-progress">
+      <div id="progress-bar" [ngStyle]="getProgressBarStyle()" [attr.infinite]="infinity"></div>
+    </div>
+    <section class="text-center">
+      <div id="loading-type-0">
+        <div id="load-logo"></div>
+        <br/>
+        <span>Carregando</span>
+      </div>
+    </section>
+  </div>
+</div>

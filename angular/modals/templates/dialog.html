@@ -1,0 +1,18 @@
+<div class="row-grid pd-3">
+    <div class="col">
+        <div class="row-grid">
+            <div class="col" id="text-body">
+                {{data.body}}
+            </div>
+        </div>
+        <div class="row-grid pd-t-1">
+            <div class="col"><!-- EMPTY CONTAINER --></div>
+            <div class="col pd-r-1">
+                <button class="rounded-btn clear-btn full-w" (click)="data.cancel()">Cancelar</button>
+            </div>
+            <div class="col">
+                <button class="rounded-btn full-w" (click)="data.confirm()">Confirmar</button>
+            </div>
+        </div>
+    </div>
+</div>

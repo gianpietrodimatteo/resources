@@ -1,0 +1,25 @@
+<div class="notification">
+  <jhi-drawer-layout direction="1" width="30%" #drawer>
+    <section nav>
+      <div id="notification-container">
+        <div class="row-grid md-b-1">
+          <div class="col">
+          </div>
+          <div class="col text-center">
+            <button class="rounded-btn clear-btn full-w" *ngIf="notificationErrors.length > 0" (click)="clear()">Limpar Tudo</button>
+          </div>
+        </div>
+        <!-- Notification Cards -->
+        <h4 *ngIf="notificationErrors.length == 0" class="text-center">Nenhuma Notificação</h4>
+        <jhi-notification-item *ngFor="let item of notificationErrors;let i = index" [data]="item" (remove)="onRemove(i)"></jhi-notification-item>
+        <!-- End Notification Cards -->
+      </div>
+    </section>
+    <div id="content-body">
+      <ng-content></ng-content>
+    </div>
+    <div id="float-notification" *ngIf="notifications.length > 0 && !dispatched">
+      <jhi-notification-item [data]="notifications[notifications.length - 1]" (remove)="onDispatchMainNotification()"></jhi-notification-item>
+    </div>
+    </jhi-drawer-layout>
+</div>
