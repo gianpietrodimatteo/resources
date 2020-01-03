@@ -21,6 +21,17 @@ while read -u 10 p; do
   echo "$p"
 done 10<peptides.txt
 
+# another example with conditional
+gitme () {
+  while read -u 10 p; do
+    if [[ "$p" != \#* ]]; then
+      echo "# $p:";
+          git --git-dir=$p/.git --work-tree=$p "$@";
+          echo -e;
+    fi
+  done 10<$HOME/.myrepos
+}
+
 # Using for loop
 for HOST in $(cat servers.txt ) ; do
 ssh $HOST "uname -a" ;
