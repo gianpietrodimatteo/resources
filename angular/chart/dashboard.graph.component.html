@@ -1,0 +1,34 @@
+<section class="pd-l-3 pd-r-3">
+    <div style="display: block">
+        <canvas id="budgetChart" baseChart [datasets]="barChartData" [labels]="barChartLabels"
+            [options]="barChartOptions" [legend]="barChartLegend" [plugins]="barChartPlugins" [chartType]="barChartType"
+            [colors]="barChartColors" (chartClick)="chartClicked($event)">
+        </canvas>
+    </div>
+</section>
+
+<section class="pd-l-3 pd-r-3">
+    <div class="row-grid pd-l-1 pd-r-1 pd-t-2">
+        <div class="col text-center">
+            <ul class="tab" #container>
+                <li class="inline" [attr.active]="!legends" (click)="legends = false">Detalhes</li>
+                <li class="inline" [attr.active]="legends" (click)="legends = true">Legendas</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row-grid pd-l-1 pd-r-1 pd-t-2" *ngIf="!occluded" @showContainerTrigger>
+        <div class="col" *ngIf="legends" @legendTrigger>
+            <div class="row-grid" id="legends-field">
+                <div class="col" id="legends-column">
+                    <ng-container *ngFor="let item of data">
+                        {{ item.symbol }} - {{ item.name | namefy }}
+                        <br />
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+        <div class="col" *ngIf="!legends" @detailsTrigger>
+            <dashboard-graph-resume></dashboard-graph-resume>
+        </div>
+    </div>
+</section>

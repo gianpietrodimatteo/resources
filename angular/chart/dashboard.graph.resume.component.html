@@ -1,0 +1,19 @@
+<div class="row-grid">
+    <div class="col"></div>
+    <div class="col-1 text-center" id="graph-icon-field">
+        <fa-icon icon="list" *ngIf="!isTable" (click)="isTable = !isTable"></fa-icon>
+        <fa-icon icon="chart-pie" *ngIf="isTable" (click)="isTable = !isTable"></fa-icon>
+    </div>
+</div>
+<div class="row-grid pd-t-2" *ngIf="!isTable" @graphResumeTrigger>
+    <ng-container *ngIf="graphData != null">
+        <div class="col text-center" *ngFor="let item of graphData.graph">
+            <circle-graph [label]="item.name" [percentage]="item.percentage" [size]="graphData.size"></circle-graph>
+        </div>
+    </ng-container>
+</div>
+<div class="row-grid pd-t-2" *ngIf="isTable" @tableResumeTrigger>
+    <div class="col">
+        <dashboard-info-table></dashboard-info-table>
+    </div>
+</div>

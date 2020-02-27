@@ -1,0 +1,9 @@
+.dashboard-graph-chart-label{
+    text-align: center;
+    font-size: 4em;
+}
+#graph-icon-field{
+    font-size: 2em;
+    cursor: pointer;
+    user-select: none;
+}
