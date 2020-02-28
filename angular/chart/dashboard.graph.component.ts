@@ -6,6 +6,7 @@ import { GraphTrigger } from '../animations/graph.bar.anim';
 import { DetailsTrigger, LegendTrigger, ShowContainerTrigger } from '../animations/tab.anim';
 import { DashboardComponent } from '../dashboard.component';
 
+
 const ANIMATIONS = [GraphTrigger, LegendTrigger, DetailsTrigger, ShowContainerTrigger];
 @Component({
     selector: 'dashboard-graph',
@@ -48,8 +49,11 @@ export class DashboardGraphComponent {
     public occluded = true;
 
     private readonly data: any[];
+    private displayedData = [];
 
     @ViewChild('container') private element: ElementRef;
+
+    restoreDisabled = false;
 
     constructor(private dashboard: DashboardComponent, private currencyPipe: CurrencyPipe) {
         this.data = this.dashboard.data.plannedXRealizedCostElement;
@@ -87,12 +91,40 @@ export class DashboardGraphComponent {
                 }
             }
         };
+        this.restoreChart();
+    }
 
-        // Load graph values
+    adjustCurrency(label: any) {
+        return this.currencyPipe.transform(label, 'R$', '');
+    }
+
+    // events
+    public chartClicked({ event, active }: { event: MouseEvent, active: {}[] }): void {
+        // Removes the clicked collumn dataset (total planned x realized)
+        let index;
+        if (active) {
+            index = active[0]._index;
+        }
+        this.displayedData.splice(index, 1);
+        this.redrawChart();
+        this.restoreDisabled = false;
+    }
+
+    restoreChart() {
+        this.restoreDisplayedData();
+        this.redrawChart();
+        this.restoreDisabled = true;
+    }
+
+    restoreDisplayedData() {
+        Object.assign(this.displayedData, this.data);
+    }
+
+    redrawChart() {
         const totalPlanned = [];
         const totalRealized = [];
         const symbols = [];
-        this.data.forEach(item => {
+        this.displayedData.forEach(item => {
             totalPlanned.push(item.totalPlanned);
             totalRealized.push(item.totalRealized);
             symbols.push(item.symbol);
@@ -104,18 +136,10 @@ export class DashboardGraphComponent {
         this.barChartLabels = symbols;
     }
 
-    adjustCurrency(label: any) {
-        return this.currencyPipe.transform(label, 'R$', '');
-    }
-
-    // events
-    public chartClicked({ event, active }: { event: MouseEvent, active: {}[] }): void {
-        console.log(event, active);
-    }
-
-    public chartHovered({ event, active }: { event: MouseEvent, active: {}[] }): void {
-        console.log(event, active);
-    }
+    // If you want to do some hovering function
+    // public chartHovered({ event, active }: { event: MouseEvent, active: {}[] }): void {
+    //     console.log(event, active);
+    // }
 
     @HostListener('window:scroll')
     private onScroll(): void {

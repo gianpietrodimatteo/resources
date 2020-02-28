@@ -1,0 +1,143 @@
+<div id="dashboard-container">
+  <div class="pd-l-3 pd-r-3 pd-t-1 pd-b-3 dashboard-container" [ngStyle]='{minHeight:containerSize}'>
+    <div class="full-w">
+      <div class="row-grid">
+        <div class="col">
+          <h1><b jhiTranslate="dashboard.dashboard.titlePage">Dashboard</b></h1>
+          <span *ngIf="executorId == 0" style="font-size: 16px;" jhiTranslate="dashboard.dashboard.subTitle">Orçamento
+            do Projeto</span>
+          <span *ngIf="executorId > 0" style="font-size: 16px;" jhiTranslate="dashboard.dashboard.subTitle2">Orçamento
+            da Executora</span>
+        </div>
+        <div class="col-3">
+          <select class="full-w dashboard-select" [(ngModel)]="executorId" (change)="onChange()">
+            <option *ngIf="isInternalUser === true" [ngValue]="0" jhiTranslate="dashboard.projeto.valor">Projeto
+            </option>
+            <option [ngValue]="item.id" *ngFor="let item of executors">{{item.nameFormatted}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="row-grid md-t-2 md-b-3">
+        <div class="col-4 pd-t-1" id="dashboard-info">
+          <ul>
+            <li>
+              <h1 class="loading-field-info" *ngIf="loading" style="width: 50%;"></h1>
+              <h1 *ngIf="!loading"><b>R$ <interpolate-number [value]="data.totalPlanned"></interpolate-number></b></h1>
+              <span class="fadeInElement" jhiTranslate="dashboard.valores.valor1">Total Planejado</span>
+            </li>
+            <li>
+              <h1 class="loading-field-info" *ngIf="loading" style="width: 75%;"></h1>
+              <h1 *ngIf="!loading"><b>R$ <interpolate-number [value]="data.totalPaid"></interpolate-number></b></h1>
+              <span class="fadeInElement" jhiTranslate="dashboard.valores.valor2">Total Pago</span>
+            </li>
+            <li>
+              <h1 class="loading-field-info" *ngIf="loading" style="width: 45%;"></h1>
+              <h1 *ngIf="!loading"><b>R$ <interpolate-number [value]="data.totalRealized"></interpolate-number></b></h1>
+              <span class="fadeInElement" jhiTranslate="dashboard.valores.valor3">Total Realizado</span>
+            </li>
+            <li>
+              <h1 class="loading-field-info" *ngIf="loading" style="width: 80%;"></h1>
+              <h1 *ngIf="!loading"><b>R$ <interpolate-number [value]="data.totalFinancialIncome"></interpolate-number>
+                </b></h1>
+              <span class="fadeInElement" jhiTranslate="dashboard.valores.valor4">Total Rendimentos de Aplicação
+                Financeira</span>
+            </li>
+            <li>
+              <h1 class="loading-field-info" *ngIf="loading" style="width: 45%;"></h1>
+              <h1 *ngIf="!loading"><b>R$ <interpolate-number [value]="data.totalItemsNoQualified"></interpolate-number>
+                </b></h1>
+              <span class="fadeInElement" jhiTranslate="dashboard.valores.valor5">Total Itens não Qualificados</span>
+            </li>
+            <li>
+              <h1 class="loading-field-info" *ngIf="loading" style="width: 30%;"></h1>
+              <h1 *ngIf="!loading"><b>R$ <interpolate-number [value]="data.currentBalance"></interpolate-number></b>
+              </h1>
+              <span class="fadeInElement" jhiTranslate="dashboard.valores.valor6">Saldo Atual</span>
+            </li>
+            <li>
+              <h1 class="loading-field-info" *ngIf="loading" style="width: 50%;"></h1>
+              <h1 *ngIf="!loading"><b>R$ <interpolate-number [value]="data.currentBalanceOfFinancialApplication">
+                  </interpolate-number></b></h1>
+              <span class="fadeInElement" jhiTranslate="dashboard.valores.valor7">Saldo de Aplicação Financeira</span>
+            </li>
+          </ul>
+
+        </div>
+        <div class="col" #graphContainer>
+          <div class="row-grid" *ngIf="graphData">
+            <div class="col text-center">
+              <div class="loading-graph-circle" *ngIf="loading"
+                [ngStyle]="{height:graphData.size+'px',width: graphData.size+'px'}"></div>
+              <circle-graph class="fadeInElement" *ngIf="!loading"
+                label="{{'dashboard.graficosPizza.valor1' | translate}}" [percentage]="data.executionTimePercentage"
+                [size]="graphData.size"></circle-graph>
+            </div>
+            <div class="col text-center">
+              <div class="loading-graph-circle" *ngIf="loading"
+                [ngStyle]="{height:graphData.size+'px',width: graphData.size+'px'}"></div>
+              <circle-graph class="fadeInElement" *ngIf="!loading"
+                label="{{'dashboard.graficosPizza.valor2' | translate}}" [percentage]="data.plannedXpaidPercentage"
+                [size]="graphData.size"></circle-graph>
+            </div>
+            <div class="col text-center">
+              <div class="loading-graph-circle" *ngIf="loading"
+                [ngStyle]="{height:graphData.size+'px',width: graphData.size+'px'}"></div>
+              <circle-graph class="fadeInElement" *ngIf="!loading"
+                label="{{'dashboard.graficosPizza.valor3' | translate}}" [percentage]="data.plannedXrealizedPercentage"
+                [size]="graphData.size"></circle-graph>
+            </div>
+          </div>
+          <div class="row-grid md-t-1" *ngIf="graphData">
+            <div class="col text-center">
+              <div class="loading-graph-circle" *ngIf="loading"
+                [ngStyle]="{height:graphData.size+'px',width: graphData.size+'px'}"></div>
+              <circle-graph class="fadeInElement" *ngIf="!loading"
+                label="{{'dashboard.graficosPizza.valor4' | translate}}" [percentage]="data.paidXrealizedPercentage"
+                [size]="graphData.size"></circle-graph>
+            </div>
+            <div class="col text-center">
+              <div class="loading-graph-circle" *ngIf="loading"
+                [ngStyle]="{height:graphData.size+'px',width: graphData.size+'px'}"></div>
+              <circle-graph class="fadeInElement" *ngIf="!loading"
+                label="{{'dashboard.graficosPizza.valor5' | translate}}"
+                [percentage]="data.realizedFinancialApplicationPercentage" [size]="graphData.size"></circle-graph>
+            </div>
+            <div class="col text-center">
+              <div class="loading-graph-circle" *ngIf="loading"
+                [ngStyle]="{height:graphData.size+'px',width: graphData.size+'px'}"></div>
+              <circle-graph class="fadeInElement" *ngIf="!loading"
+                label="{{'dashboard.graficosPizza.valor6' | translate}}"
+                [percentage]="data.plannedXItensNoQualifiedPercentage" [size]="graphData.size"></circle-graph>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- CONTAINER GRAPH -->
+  <div class="pd-t-1 pd-b-3 dashboard-container" *ngIf="!loading" [ngStyle]='{minHeight:secondContainerSize}'
+    id="dashboard-container-aside">
+    <div class="full-w">
+      <div class="row-grid pd-l-3 pd-r-3">
+        <div class="col">
+          <h1><b jhiTranslate="dashboard.dashboard.titlePage">Dashboard</b></h1>
+          <span *ngIf="executorId == 0" jhiTranslate="dashboard.dashboard.subTitle">Orçamento do Projeto</span>
+          <span *ngIf="executorId > 0" jhiTranslate="dashboard.dashboard.subTitle2">Orçamento da Executora</span>
+        </div>
+        <div class="col">
+        </div>
+        <div class="col restore-graph-col">
+          <button type="button" data-toggle="tooltip" data-placement="top" title="Restaurar"
+            class="btn btn-default btn-sm" (click)="graph.restoreChart()" [disabled]="restoreDisabled">
+            <fa-icon [icon]="faRedo" [size]="1"></fa-icon>
+          </button>
+        </div>
+      </div>
+      <div class="row-grid">
+        <div class="col">
+          <dashboard-graph #graph></dashboard-graph>
+        </div>
+      </div>
+    </div>
+    <!-- END CONTAINER GRAPH -->
+  </div>
