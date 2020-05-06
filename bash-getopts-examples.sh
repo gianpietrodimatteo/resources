@@ -1,3 +1,28 @@
+# Boolean options!
+foo () {
+    local flag=0
+
+    while getopts 't' opt; do
+        case $opt in
+            t) flag=1 ;;
+            *) echo 'Error in command line parsing' >&2
+               exit 1
+        esac
+    done
+    shift "$(( OPTIND - 1 ))"
+
+    local param1=$1
+    local param2=$2
+
+    if [ "$flag" -eq 1 ]; then
+        # do things for "foo -t blah blah"
+        echo "flag is active, m8"
+    else
+        echo "flag is NOT active, m8"
+        # do things for "foo blah blah"
+    fi
+}
+
 while getopts u:d:p:f: option
 do
   case "${option}"
@@ -38,3 +63,5 @@ done
 
 ARG1=${@:$OPTIND:1}
 ARG2=${@:$OPTIND+1:1}
+
+
