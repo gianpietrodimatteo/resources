@@ -32,7 +32,7 @@ gitme () {
   done 10<$HOME/.myrepos
 }
 
-# Using for loop
+# Using for loop BEST
 for HOST in $(cat servers.txt ) ; do
 ssh $HOST "uname -a" ;
 done
